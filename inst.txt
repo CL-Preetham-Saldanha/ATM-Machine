@@ -1,0 +1,16 @@
+# Algorithm
+-------------------
+
+# 1. Create Class/Function - Read Excel file (A)
+# 2. Create Class/Function - Get 4 digit input form user and cross check with option 1 (Main)
+#       2.1. validation part -  return "Unauthorized User" if wrong pin,  else go to option 3
+#       2.2. use while loop till user enter his/her correct PIN to login
+# 3. Create Class/Function - To display and get Input from user to choose option 
+#       ( 1. Check Balance, 2. Deposit, 3. Withdraw, 4. Help)
+#       3.1. Get input from option 3 
+#       3.2. if user enters 1, call Check balance function, The check balance function has to read balance from the excel sheet and return 
+#       3.3. if user enters 2, call Deposit function, in deposit function get the amount from user and update it in the excel sheet (next row)
+#       3.4. if user enetrs 3, call withdraw function and get the amount from user to withdraw, if amount is greater than balance then it should return error message
+            # and update the sheet.
+#       3.5. if user enters 4, call Help function and confirm from the user to reset pin number 
+                # if yes reset pin number, else keep the existing pin number
