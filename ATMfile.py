@@ -1,8 +1,18 @@
 from numpy import less
 import openpyxl
-
+import random
 import pandas as pd
 import csv
+import math
+
+Notesarray = [[2000, 500, 100], [2000, 500, 200, 100]]
+Notes = dict()
+arr = random.choice(Notesarray)
+
+
+for Note in arr:
+    n = random.randint(500, 1000)
+    Notes.update({Note: n})
 
 
 details = dict()
@@ -14,15 +24,47 @@ book = openpyxl.load_workbook(
 sheet = book.active
 
 
+def numberOfNotes(amount):
+    answer = dict()
+    if len(Notes) == 3:
+        answer.update({2000: math.floor(amount / 2000)})
+        amount = amount % 2000
+        answer.update({500: math.floor(amount / 500)})
+        amount = amount % 500
+        answer.update({100: math.floor(amount / 100)})
+        amount = amount % 100
+
+    else:
+        answer.update({2000: math.floor(amount / 2000)})
+        amount = amount % 2000
+        answer.update({500: math.floor(amount / 500)})
+        amount = amount % 500
+        answer.update({200: math.floor(amount / 200)})
+        amount = amount % 200
+        answer.update({100: math.floor(amount / 100)})
+        amount = amount % 100
+    return answer
+
+
 def Withdraw():
     amount = int(input("Enter amount to withdraw\n"))
+    if amount % 100 > 0:
+        print("Invalid entry:Enter atleast multiple of 100\n")
+        return
+
     if amount > details["Balance"]:
         print("Insufficient balance")
     else:
         pin = int(input("Enter pin to confirm\n"))
+
         if pin == details["PIN"]:
+
+            notesDrawn = numberOfNotes(amount)
             details["Balance"] = details["Balance"] - amount
             sheet.cell(row=2, column=4).value = details["Balance"]
+
+            for notes in notesDrawn:
+                print(str(notes) + " x " + str(notesDrawn[notes]) + "\n")
             print("Cash withdrawn!")
         else:
             print("Wrong pin")
@@ -44,6 +86,9 @@ def Check_Balance():
 
 def Change_PIN():
     pin = int(input("Enter new pin\n"))
+    while pin < 1000 or pin > 9999:
+        pin = int(input("Wrong input! Enter 4 Digits only"))
+
     cpin = int(input("confirm pin\n"))
     if pin == cpin:
         details["PIN"] = pin
@@ -55,7 +100,7 @@ def Change_PIN():
 
 
 def checkPIn(PIN):
-    if PIN < 1000:
+    if PIN < 1000 or PIN > 9999:
         pin = "Inavlid input: Enter 4 Digits\n"
         checkPIn(pin)
         return
